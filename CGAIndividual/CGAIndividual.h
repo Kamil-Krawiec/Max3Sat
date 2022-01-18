@@ -6,18 +6,16 @@
 
 class CGAIndividual {
 
+    CGAIndividual *cgaMutation(CGAIndividual *child);
 
+    CGAIndividual *cgaCrossover(CGAIndividual *child1, CGAIndividual *child2);
 
-    CGAIndividual* cgaMutation(CGAIndividual* child);
-    CGAIndividual* cgaCrossover(CGAIndividual* child1,CGAIndividual* child2);
-
-
+    double dFitness();
 
 
 private:
     std::vector<bool> genotype;
     double fitness;
-
 
 
 };
