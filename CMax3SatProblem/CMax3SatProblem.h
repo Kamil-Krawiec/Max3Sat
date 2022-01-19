@@ -19,9 +19,13 @@ public:
 
     int iCompute(std::vector<bool> solution);
 
+    void showBestSolution();
+
+
 private:
     std::vector<std::vector<CClause*>> numberPointingToClausules;
-
+    std::vector<bool> bestSolution;
+    int completedClauses;
 };
 
 

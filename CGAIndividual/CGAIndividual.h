@@ -10,18 +10,20 @@ class CGAIndividual {
 public:
     void vInitialize(CMax3SatProblem& max3SatProblem,int sizeOfPopulation);
 
-    CGAIndividual *cgaMutation(CGAIndividual *child);
+    CGAIndividual *cgaMutation(double mutationProb);
 
-    CGAIndividual *cgaCrossover(CGAIndividual *child1, CGAIndividual *child2);
+    std::tuple<CGAIndividual*,CGAIndividual*> tupleCrossover(CGAIndividual *parent1, CGAIndividual *parent2);
 
-    double dFitness(CMax3SatProblem& max3SatProblem, int sizeOfPopulation);
+    double dFitness(CMax3SatProblem& max3SatProblem);
 
     CGAIndividual *cgaChooseParent(std::vector<CGAIndividual *> population);
 
     bool randomBool();
 
+    int randomNumber(int max);
 
 private:
+    int populationSize;
     std::vector<bool> genotype;
     double fitness;
 

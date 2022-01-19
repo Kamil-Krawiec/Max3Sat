@@ -31,7 +31,7 @@ bool CMax3SatProblem::bLoad(std::string path) {
 
 int CMax3SatProblem::iCompute(std::vector<bool> solution) {
 
-    int trueClausules = 0;
+    int trueClauses = 0;
 
     for (std::vector<std::vector<CClause *>>::size_type i = 0; i != numberPointingToClausules.size(); i++) {
         for (std::vector<CClause *>::size_type j = 0; j != numberPointingToClausules[i].size(); j++) {
@@ -45,7 +45,7 @@ int CMax3SatProblem::iCompute(std::vector<bool> solution) {
 
             if (!subject->isVerified()) {
                 if (subject->bCheckClausule()) {
-                    trueClausules++;
+                    trueClauses++;
                 }
 
                 subject->setVerified(true);
@@ -60,9 +60,11 @@ int CMax3SatProblem::iCompute(std::vector<bool> solution) {
         }
     }
 
-    std::cout << trueClausules << std::endl;
+    std::cout << trueClauses << std::endl;
 
-    return trueClausules;
+    if(trueClauses>completedClauses) bestSolution = solution;
+
+    return trueClauses;
 }
 
 CMax3SatProblem::CMax3SatProblem(int numberOfPopulation) {
@@ -74,6 +76,17 @@ CMax3SatProblem::CMax3SatProblem(int numberOfPopulation) {
 
 //TODO
 CMax3SatProblem::~CMax3SatProblem() {
+
+
+}
+
+void CMax3SatProblem::showBestSolution() {
+    std::cout<<"Best solution in clauses: "<<completedClauses<<std::endl;
+    std::cout<<"Best solution in fitness (complited/all) : "<<completedClauses/bestSolution.size() *100<<"%"<<std::endl;
+    std::cout<<"Binary coded: ";
+    for (std::vector<bool>::size_type i = 0; i != bestSolution.size(); i++) {
+        std::cout<<bestSolution[i];
+    }
 
 
 }

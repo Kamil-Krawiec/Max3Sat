@@ -8,7 +8,7 @@
 
 #define DEFAULT_POPULATION_SIZE 50
 #define DEFAULT_CROSSING_PROBABILITY 0.60
-#define DEFAULT_MUTATION_PROBABILITY 0.40
+#define DEFAULT_MUTATION_PROBABILITY 0.10
 
 
 class CGAOptimizer {
@@ -21,8 +21,11 @@ public:
 
     void vInitialize(std::string path);
 
+    std::tuple<CGAIndividual *, CGAIndividual *> tupleCrossing(CGAIndividual *parent1, CGAIndividual *parent2);
 
     void vRunIteration();
+
+    void showResults();
 
 
 private:
