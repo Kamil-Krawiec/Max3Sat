@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-#include "../CClause/CClausule.h"
+#include "../CClause/CClause.h"
 #include <fstream>
 #include <iostream>
 
@@ -20,7 +20,7 @@ public:
     int iCompute(std::vector<bool> solution);
 
 private:
-    std::vector<std::vector<CClausule*>> numberPointingToClausules;
+    std::vector<std::vector<CClause*>> numberPointingToClausules;
 
 };
 
