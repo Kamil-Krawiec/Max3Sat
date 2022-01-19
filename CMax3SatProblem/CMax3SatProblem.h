@@ -5,18 +5,22 @@
 #include <string>
 #include <vector>
 #include "../CClause/CClausule.h"
+#include <fstream>
+#include <iostream>
 
 
 class CMax3SatProblem {
 public:
     CMax3SatProblem(int numberOfPopulation);
 
+    virtual ~CMax3SatProblem();
+
     bool bLoad(std::string path);
 
     int iCompute(std::vector<bool> solution);
 
 private:
-    std::vector<CClausule *> numberPointingToClausule;
+    std::vector<std::vector<CClausule*>> numberPointingToClausules;
 
 };
 

@@ -20,7 +20,7 @@ CGAOptimizer::~CGAOptimizer() {
 void CGAOptimizer::vInitialize(std::string path) {
     max3sat = new CMax3SatProblem(sizeOfPopulation);
     max3sat->bLoad(path);
-    
+
 }
 
 

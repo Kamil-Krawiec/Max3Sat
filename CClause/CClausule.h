@@ -7,8 +7,12 @@
 
 
 class CClausule {
+public:
+    CClausule(int first, int middle, int last);
+
     bool bCheckClausule();
-    bool bSetClausule(bool first,bool middle, bool last);
+
+    bool bSetClausule(bool first, bool middle, bool last);
 
 private:
     int first;
