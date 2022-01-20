@@ -6,7 +6,7 @@
 #include "../CGAIndividual/CGAIndividual.h"
 #include "../CMax3SatProblem/CMax3SatProblem.h"
 
-#define DEFAULT_POPULATION_SIZE 50
+#define DEFAULT_POPULATION_SIZE 4
 #define DEFAULT_CROSSING_PROBABILITY 0.60
 #define DEFAULT_MUTATION_PROBABILITY 0.10
 
@@ -23,7 +23,11 @@ public:
 
     void vRunIteration();
 
-    void showResults();
+    void vShowResults();
+
+    void vSortPopulation();
+
+    void vClearVector(std::vector<CGAIndividual*>* vector);
 
 
 private:
@@ -32,8 +36,8 @@ private:
     double crossingProbability;
     double mutationProbability;
 
-    std::vector<CGAIndividual *> population;
-    std::vector<CGAIndividual *> newPopulation;
+    std::vector<CGAIndividual *>* population;
+    std::vector<CGAIndividual *>* newPopulation;
 
     CGAIndividual *parent1;
     CGAIndividual *parent2;
