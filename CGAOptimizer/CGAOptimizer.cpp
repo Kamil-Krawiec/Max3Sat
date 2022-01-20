@@ -26,37 +26,34 @@ void CGAOptimizer::vInitialize(std::string path) {
         population.push_back(new CGAIndividual());
         population[i]->vInitialize(*max3sat, sizeOfPopulation);
     }
-
+    parent1 = new CGAIndividual(sizeOfPopulation);
+    parent2 = new CGAIndividual(sizeOfPopulation);
+    child1 = new CGAIndividual(sizeOfPopulation);
+    child2 = new CGAIndividual(sizeOfPopulation);
 
 }
 
 void CGAOptimizer::vRunIteration() {
     newPopulation.clear();
-    while (newPopulation.size() < population.size()) {
+    int counter=0;
+    while ( counter < population.size()) {
 
         parent1 = parent1->cgaChooseParent(population);
         parent2 = parent2->cgaChooseParent(population);
-        auto[child1, child2] = tupleCrossing(parent1, parent2);
+
+        child1= child1->cgaCrossover(parent1, parent2);
+        child2= child2->cgaCrossover(parent2,parent1);
+
         child1->cgaMutation(mutationProbability);
+        child1->dFitness(*max3sat);
         child2->cgaMutation(mutationProbability);
+        child2->dFitness(*max3sat);
+
         newPopulation.push_back(child1);
         newPopulation.push_back(child2);
+        counter+=2;
     }
     population = newPopulation;
-
-    for (auto &individual: population) {
-        individual->dFitness(*max3sat);
-    }
-
-}
-
-std::tuple<CGAIndividual *, CGAIndividual *>
-CGAOptimizer::tupleCrossing(CGAIndividual *parent1, CGAIndividual *parent2) {
-    if (child1->randomNumber(100) % 100 > crossingProbability * 100) {
-        return child2->tupleCrossover(parent1, parent2);
-    } else {
-        return {parent1, parent2};
-    }
 
 }
 

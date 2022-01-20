@@ -3,13 +3,13 @@
 bool CMax3SatProblem::bLoad(std::string path) {
     std::ifstream file;
     file.open(path);
-
     if (!file) {
         std::cout << "Unable to open file " << path << std::endl;
         return false;
     }
 
     std::string bracket, x1, x2, x3;
+    allClauses=0;
 
     while (file >> bracket >> x1 >> x2 >> x3 >> bracket) {
 
@@ -22,14 +22,14 @@ bool CMax3SatProblem::bLoad(std::string path) {
         numberPointingToClausules[abs(first)].push_back(newClausule);
         numberPointingToClausules[abs(middle)].push_back(newClausule);
         numberPointingToClausules[abs(last)].push_back(newClausule);
-
+        allClauses++;
     }
 
     file.close();
     return true;
 }
 
-int CMax3SatProblem::iCompute(std::vector<bool> solution) {
+double CMax3SatProblem::iCompute(std::vector<bool> solution) {
 
     int trueClauses = 0;
 
@@ -42,7 +42,6 @@ int CMax3SatProblem::iCompute(std::vector<bool> solution) {
     for (std::vector<std::vector<CClause *>>::size_type i = 0; i != numberPointingToClausules.size(); i++) {
         for (std::vector<CClause *>::size_type j = 0; j != numberPointingToClausules[i].size(); j++) {
             CClause *subject = numberPointingToClausules[i][j];
-
             if (!subject->isVerified()) {
                 if (subject->bCheckClausule()) {
                     trueClauses++;
@@ -64,7 +63,9 @@ int CMax3SatProblem::iCompute(std::vector<bool> solution) {
 
     if(trueClauses>completedClauses) bestSolution = solution;
 
-    return trueClauses;
+    completedClauses=trueClauses;
+
+    return (double) trueClauses;
 }
 
 CMax3SatProblem::CMax3SatProblem(int numberOfPopulation) {
@@ -89,6 +90,10 @@ void CMax3SatProblem::showBestSolution() {
     }
 
 
+}
+
+int CMax3SatProblem::getAllClauses() const {
+    return allClauses;
 }
 
 

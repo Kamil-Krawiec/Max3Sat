@@ -21,8 +21,6 @@ public:
 
     void vInitialize(std::string path);
 
-    std::tuple<CGAIndividual *, CGAIndividual *> tupleCrossing(CGAIndividual *parent1, CGAIndividual *parent2);
-
     void vRunIteration();
 
     void showResults();

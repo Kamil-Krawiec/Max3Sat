@@ -17,15 +17,17 @@ public:
 
     bool bLoad(std::string path);
 
-    int iCompute(std::vector<bool> solution);
+    double iCompute(std::vector<bool> solution);
 
     void showBestSolution();
 
+    int getAllClauses() const;
 
 private:
     std::vector<std::vector<CClause*>> numberPointingToClausules;
     std::vector<bool> bestSolution;
     int completedClauses;
+    int allClauses;
 };
 
 
