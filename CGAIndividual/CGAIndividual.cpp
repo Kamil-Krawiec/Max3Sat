@@ -7,7 +7,8 @@ CGAIndividual::CGAIndividual() {
     genotype->reserve(DEFAULT_POPULATION_SIZE);
 }
 
-CGAIndividual::CGAIndividual(CGAIndividual *pcOther) {
+CGAIndividual::CGAIndividual(const CGAIndividual* pcOther) {
+
     this->fitness = pcOther->fitness;
     this->populationSize = pcOther->populationSize;
     this->numberOfClauses = pcOther->numberOfClauses;
@@ -41,13 +42,18 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
 
 //choose parent
 CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
-
     int first = randomNumber(populationSize) - 1;
     int second = randomNumber(populationSize) - 1;
 
     if (first != second) {
-        return population[first]->fitness > population[second]->fitness ? (CGAIndividual *) (population[first])
-                                                                        : (CGAIndividual *) (population[second]);
+        if(population[first]->fitness > population[second]->fitness){
+            CGAIndividual* newOne = new CGAIndividual(population[first]);
+            return newOne;
+        }else{
+            CGAIndividual* newOne = new CGAIndividual(population[second]);
+            return newOne;
+        }
+
     } else {
         return cgaChooseParent(population);
     }
@@ -57,22 +63,23 @@ CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> popul
 //crossover
 CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2, double crossingProb) {
 
-    if (randomNumber(100) > crossingProb * 100) return (CGAIndividual *) (parent1);
+    CGAIndividual* newOne = new CGAIndividual(parent1);
+
+    if (randomNumber(100) > crossingProb * 100){
+        return newOne;
+    };
 
     int cuttingIndex = randomNumber(populationSize - 1);
 
-    this->numberOfClauses = parent1->numberOfClauses;
-    this->genotype->resize(populationSize);
-
     for (std::vector<CClause *>::size_type i = 0; i != parent1->genotype->size(); i++) {
         if (i < cuttingIndex) {
-            this->genotype->at(i) = parent1->genotype->at(i);
+            newOne->genotype->at(i) = parent1->genotype->at(i);
         } else {
-            this->genotype->at(i) = parent2->genotype->at(i);
+            newOne->genotype->at(i) = parent2->genotype->at(i);
         }
     }
 
-    return (CGAIndividual *) (this);
+    return newOne;
 }
 
 //fitness

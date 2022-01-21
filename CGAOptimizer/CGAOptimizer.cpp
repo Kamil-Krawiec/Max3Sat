@@ -40,7 +40,7 @@ void CGAOptimizer::vInitialize(std::string path) {
 
 void CGAOptimizer::vRunIteration() {
     int counter = 0;
-    vClearVector(newPopulation);
+
     while (counter < population->size()) {
         parent1 = new CGAIndividual(sizeOfPopulation);
         parent2 = new CGAIndividual(sizeOfPopulation);
@@ -59,6 +59,7 @@ void CGAOptimizer::vRunIteration() {
 
         newPopulation->push_back(child1);
         newPopulation->push_back(child2);
+
         counter += 2;
     }
 
@@ -70,7 +71,7 @@ void CGAOptimizer::vRunIteration() {
     vClearVector(population);
 
     population = newPopulation;
-
+//    newPopulation=new std::vector<CGAIndividual*>;
 }
 
 //----------------------------MY FUNCTIONS----------------------------
@@ -102,7 +103,9 @@ void CGAOptimizer::vClearVector(std::vector<CGAIndividual *> *vec) {
 
 CGAOptimizer::~CGAOptimizer() {
 
+
 }
+
 
 
 

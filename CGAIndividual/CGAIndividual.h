@@ -13,7 +13,7 @@ public:
     //constructors
     CGAIndividual();
 
-    CGAIndividual(CGAIndividual* pcOther);
+    CGAIndividual(const CGAIndividual* pcOther);
 
     CGAIndividual(int populationSize);
 
