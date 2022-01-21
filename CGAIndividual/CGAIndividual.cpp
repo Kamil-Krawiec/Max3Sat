@@ -4,6 +4,7 @@
 CGAIndividual::CGAIndividual() {
     fitness = DEFAULT_FITNESS;
     populationSize = DEFAULT_POPULATION_SIZE;
+    genotype = new std::vector<bool>;
     genotype->reserve(DEFAULT_POPULATION_SIZE);
 }
 
@@ -31,7 +32,7 @@ CGAIndividual::CGAIndividual(int populationSize) {
 //mutate fun
 CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
 
-    for (std::vector<bool>::size_type i = 0; i != genotype->size(); i++) {
+    for (int i = 0; i != genotype->size(); i++) {
         if (randomNumber(100) < mutationProb * 100) {
             genotype->at(i) = !genotype->at(i);
         }
@@ -40,7 +41,7 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
     return this;
 }
 
-//choose parent 
+//choose parent
 CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
     std::vector<CGAIndividual*> tournament;
 
@@ -73,9 +74,7 @@ CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual
 
     CGAIndividual* newOne = new CGAIndividual(parent1);
 
-    if (randomNumber(100) > crossingProb * 100){
-        return newOne;
-    };
+    if (randomNumber(100) > crossingProb * 100) return newOne;
 
     int cuttingIndex = randomNumber(populationSize - 1);
 
@@ -126,8 +125,8 @@ double CGAIndividual::getFitness() const {
 }
 
 void CGAIndividual::vShowResult() {
-    std::cout << "Best solution in fitness (complited/all) : " << fitness * 100 << "%" << std::endl;
-    std::cout <<"Complited clauses: " << round((double) fitness * numberOfClauses) << std::endl;
+    std::cout << "Best solution in fitness (completed/all) : " << fitness * 100 << "%" << std::endl;
+    std::cout <<"Completed clauses: " << round((double) fitness * numberOfClauses) << std::endl;
     std::cout << "Binary coded: ";
     for (int i = 0; i < populationSize; i++) {
         std::cout << genotype->at(i);

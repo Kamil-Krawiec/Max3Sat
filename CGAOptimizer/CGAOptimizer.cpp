@@ -1,5 +1,7 @@
 #include "CGAOptimizer.h"
 
+#include <utility>
+
 
 //----------------------------CONSTRUCTORS----------------------------
 
@@ -27,13 +29,13 @@ CGAOptimizer::CGAOptimizer() {
 
 void CGAOptimizer::vInitialize(std::string path) {
     max3sat = new CMax3SatProblem(sizeOfPopulation);
-    max3sat->bLoad(path);
+
+    max3sat->bLoad(std::move(path));
 
     for (int i = 0; i < sizeOfPopulation; i++) {
         CGAIndividual *newOne = new CGAIndividual(sizeOfPopulation);
         newOne->vInitialize(*max3sat);
         population->push_back(newOne);
-
     }
 
 }
@@ -93,8 +95,8 @@ void CGAOptimizer::vSortPopulation() {
 
 void CGAOptimizer::vClearVector(std::vector<CGAIndividual *> *vec) {
 
-    for (int i = 0; i < vec->size(); i++) {
-        delete vec->at(i);
+    for (auto & i : *vec) {
+        delete i;
     }
 
     vec->clear();
