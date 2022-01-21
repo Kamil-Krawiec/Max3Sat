@@ -13,22 +13,24 @@
 
 class CGAOptimizer {
 public:
+    //constructors
     CGAOptimizer(int sizeOfPopulation, double crossingProbability, double mutationProbability);
 
     CGAOptimizer();
 
+    //must have functions
     virtual ~CGAOptimizer();
 
     void vInitialize(std::string path);
 
     void vRunIteration();
 
+    //my functions
     void vShowResults();
 
     void vSortPopulation();
 
     void vClearVector(std::vector<CGAIndividual*>* vector);
-
 
 private:
 
@@ -46,7 +48,6 @@ private:
     CGAIndividual *child2;
 
     CMax3SatProblem* max3sat;
-
 
 };
 

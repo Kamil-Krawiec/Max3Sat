@@ -1,5 +1,15 @@
 #include "CMax3SatProblem.h"
 
+//----------------------------CONSTRUCTORS----------------------------
+CMax3SatProblem::CMax3SatProblem(int numberOfPopulation) {
+    for (int i = 0; i < numberOfPopulation; i++) {
+        std::vector<CClause *> empty;
+        numberPointingToClausules.push_back(empty);
+    }
+}
+
+//----------------------------MUST HAVE FUNCTIONS----------------------------
+
 bool CMax3SatProblem::bLoad(std::string path) {
 
     std::ifstream file;
@@ -62,19 +72,12 @@ double CMax3SatProblem::iCompute(std::vector<bool>* solution) {
     return (double) trueClauses;
 }
 
-CMax3SatProblem::CMax3SatProblem(int numberOfPopulation) {
-    for (int i = 0; i < numberOfPopulation; i++) {
-        std::vector<CClause *> empty;
-        numberPointingToClausules.push_back(empty);
-    }
-}
-
+//----------------------------MY FUNCTIONS----------------------------
 //TODO
 CMax3SatProblem::~CMax3SatProblem() {
 
 
 }
-
 
 int CMax3SatProblem::getAllClauses() const {
     return allClauses;

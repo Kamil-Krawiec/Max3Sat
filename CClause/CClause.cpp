@@ -1,12 +1,8 @@
 #include "CClause.h"
 
-
-
 bool CClause::bCheckClausule() {
     return boolFirst || boolMiddle || boolLast;
 }
-
-
 
 CClause::CClause(int first, int middle, int last) {
     this->first = first;

@@ -1,5 +1,8 @@
 #include "CGAOptimizer.h"
 
+
+//----------------------------CONSTRUCTORS----------------------------
+
 CGAOptimizer::CGAOptimizer(int sizeOfPopulation, double crossingProbability, double mutationProbability) {
 
     this->sizeOfPopulation = sizeOfPopulation;
@@ -7,24 +10,24 @@ CGAOptimizer::CGAOptimizer(int sizeOfPopulation, double crossingProbability, dou
     this->mutationProbability = mutationProbability;
     population = new std::vector<CGAIndividual *>();
     newPopulation = new std::vector<CGAIndividual *>();
+
 }
 
 CGAOptimizer::CGAOptimizer() {
+
     sizeOfPopulation = DEFAULT_POPULATION_SIZE;
     crossingProbability = DEFAULT_CROSSING_PROBABILITY;
     mutationProbability = DEFAULT_MUTATION_PROBABILITY;
     population = new std::vector<CGAIndividual *>();
     newPopulation = new std::vector<CGAIndividual *>();
-}
-
-CGAOptimizer::~CGAOptimizer() {
 
 }
+
+//----------------------------MUST HAVE FUNCTIONS----------------------------
 
 void CGAOptimizer::vInitialize(std::string path) {
     max3sat = new CMax3SatProblem(sizeOfPopulation);
     max3sat->bLoad(path);
-
 
     for (int i = 0; i < sizeOfPopulation; i++) {
         CGAIndividual *newOne = new CGAIndividual(sizeOfPopulation);
@@ -32,7 +35,6 @@ void CGAOptimizer::vInitialize(std::string path) {
         population->push_back(newOne);
 
     }
-
 
 }
 
@@ -71,7 +73,10 @@ void CGAOptimizer::vRunIteration() {
 
 }
 
+//----------------------------MY FUNCTIONS----------------------------
+
 void CGAOptimizer::vShowResults() {
+
     vSortPopulation();
     CGAIndividual *bestSolution = population->at(0);
     bestSolution->vShowResult();
@@ -79,20 +84,25 @@ void CGAOptimizer::vShowResults() {
 }
 
 void CGAOptimizer::vSortPopulation() {
+
     sort(population->begin(), population->end(),
          [](CGAIndividual *l, CGAIndividual *r) { return l->getFitness() > r->getFitness(); });
+
 }
 
 void CGAOptimizer::vClearVector(std::vector<CGAIndividual *> *vec) {
+
     for (int i = 0; i < vec->size(); i++) {
         delete vec->at(i);
     }
 
     vec->clear();
+
 }
 
+CGAOptimizer::~CGAOptimizer() {
 
-
+}
 
 
 

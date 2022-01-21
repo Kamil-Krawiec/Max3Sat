@@ -11,21 +11,21 @@
 
 class CMax3SatProblem {
 public:
+    //constructor
     CMax3SatProblem(int numberOfPopulation);
 
-    virtual ~CMax3SatProblem();
-
+    //must have functions
     bool bLoad(std::string path);
 
     double iCompute(std::vector<bool>* solution);
 
+    //my functions
     int getAllClauses() const;
 
-
+    virtual ~CMax3SatProblem();
 
 private:
     std::vector<std::vector<CClause*>> numberPointingToClausules;
-    int completedClauses;
     int allClauses;
 };
 

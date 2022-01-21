@@ -10,12 +10,14 @@
 class CGAIndividual {
 
 public:
+    //constructors
     CGAIndividual();
 
     CGAIndividual(CGAIndividual* pcOther);
 
     CGAIndividual(int populationSize);
 
+    //must have functions
     void vInitialize(CMax3SatProblem& max3SatProblem);
 
     CGAIndividual *cgaMutation(double mutationProb);
@@ -25,6 +27,8 @@ public:
     double dFitness(CMax3SatProblem &max3SatProblem);
 
     CGAIndividual *cgaChooseParent(std::vector<CGAIndividual *> population);
+
+    //my functions
 
     bool randomBool();
 
