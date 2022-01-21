@@ -6,7 +6,7 @@
 #include "../CGAIndividual/CGAIndividual.h"
 #include "../CMax3SatProblem/CMax3SatProblem.h"
 
-#define DEFAULT_POPULATION_SIZE 4
+#define DEFAULT_POPULATION_SIZE 50
 #define DEFAULT_CROSSING_PROBABILITY 0.60
 #define DEFAULT_MUTATION_PROBABILITY 0.10
 

@@ -75,9 +75,6 @@ CMax3SatProblem::~CMax3SatProblem() {
 
 }
 
-void CMax3SatProblem::showBestSolution() {
-
-}
 
 int CMax3SatProblem::getAllClauses() const {
     return allClauses;

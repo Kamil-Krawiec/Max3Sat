@@ -6,13 +6,24 @@ CGAIndividual::CGAIndividual() {
     genotype->reserve(DEFAULT_POPULATION_SIZE);
 }
 
+CGAIndividual::CGAIndividual(CGAIndividual *pcOther) {
+    this->fitness = pcOther->fitness;
+    this->populationSize = pcOther->populationSize;
+    this->numberOfClauses = pcOther->numberOfClauses;
+    this->genotype = new std::vector<bool>;
+    this->genotype->resize(populationSize);
+
+    for (int i = 0; i < populationSize; i++) {
+        genotype->at(i) = pcOther->genotype->at(i);
+    }
+
+}
 
 CGAIndividual::CGAIndividual(int populationSize) {
     this->populationSize = populationSize;
     genotype = new std::vector<bool>;
 
 }
-
 
 CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
 
@@ -32,7 +43,8 @@ CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> popul
     int second = randomNumber(populationSize) - 1;
 
     if (first != second) {
-        return population[first]->fitness > population[second]->fitness ? population[first] : population[second];
+        return population[first]->fitness > population[second]->fitness ? (CGAIndividual *) (population[first])
+                                                                        : (CGAIndividual *) (population[second]);
     } else {
         return cgaChooseParent(population);
     }
@@ -41,25 +53,25 @@ CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> popul
 
 CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2, double crossingProb) {
 
-    if (randomNumber(100) > crossingProb * 100) return parent1;
 
-    this->genotype->clear();
-    this->genotype->reserve(populationSize);
+    if (randomNumber(100) > crossingProb * 100) return (CGAIndividual *) (parent1);
+
 
     int cuttingIndex = randomNumber(populationSize - 1);
 
     this->numberOfClauses = parent1->numberOfClauses;
-    this->fitness=0;
+    this->fitness = 0;
+    this->genotype->resize(populationSize);
 
     for (std::vector<CClause *>::size_type i = 0; i != parent1->genotype->size(); i++) {
         if (i < cuttingIndex) {
-            this->genotype->push_back(parent1->genotype->at(i));
+            this->genotype->at(i) = parent1->genotype->at(i);
         } else {
-            this->genotype->push_back(parent2->genotype->at(i));
+            this->genotype->at(i) = parent2->genotype->at(i);
         }
     }
 
-    return this;
+    return (CGAIndividual *) (this);
 }
 
 double CGAIndividual::dFitness(CMax3SatProblem &max3SatProblem) {
@@ -93,13 +105,14 @@ double CGAIndividual::getFitness() const {
 
 void CGAIndividual::vShowResult() {
     std::cout << "Best solution in fitness (complited/all) : " << fitness * 100 << "%" << std::endl;
-    std::cout << "Complited clauses: " << (int) fitness * numberOfClauses << std::endl;
+    std::cout << "Complited clauses: " << (double) fitness * numberOfClauses << std::endl;
     std::cout << "Binary coded: ";
     for (int i = 0; i < populationSize; i++) {
-        genotype->at(i);
+        std::cout << genotype->at(i);
     }
 
 }
+
 
 
 

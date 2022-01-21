@@ -1,6 +1,6 @@
 #ifndef UNTITLED_CGAINDIVIDUAL_H
 #define UNTITLED_CGAINDIVIDUAL_H
-#define DEFAULT_POPULATION_SIZE 4
+#define DEFAULT_POPULATION_SIZE 50
 #define DEFAULT_FITNESS 0.0
 
 #include <vector>
@@ -11,6 +11,8 @@ class CGAIndividual {
 
 public:
     CGAIndividual();
+
+    CGAIndividual(CGAIndividual* pcOther);
 
     CGAIndividual(int populationSize);
 

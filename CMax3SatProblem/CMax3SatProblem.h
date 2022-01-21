@@ -19,8 +19,6 @@ public:
 
     double iCompute(std::vector<bool>* solution);
 
-    void showBestSolution();
-
     int getAllClauses() const;
 
 

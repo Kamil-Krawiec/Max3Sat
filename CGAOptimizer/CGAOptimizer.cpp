@@ -5,7 +5,8 @@ CGAOptimizer::CGAOptimizer(int sizeOfPopulation, double crossingProbability, dou
     this->sizeOfPopulation = sizeOfPopulation;
     this->crossingProbability = crossingProbability;
     this->mutationProbability = mutationProbability;
-
+    population = new std::vector<CGAIndividual *>();
+    newPopulation = new std::vector<CGAIndividual *>();
 }
 
 CGAOptimizer::CGAOptimizer() {
@@ -32,10 +33,6 @@ void CGAOptimizer::vInitialize(std::string path) {
 
     }
 
-    parent1 = new CGAIndividual(sizeOfPopulation);
-    parent2 = new CGAIndividual(sizeOfPopulation);
-    child1 = new CGAIndividual(sizeOfPopulation);
-    child2 = new CGAIndividual(sizeOfPopulation);
 
 }
 
@@ -43,10 +40,13 @@ void CGAOptimizer::vRunIteration() {
     int counter = 0;
     vClearVector(newPopulation);
     while (counter < population->size()) {
-
+        parent1 = new CGAIndividual(sizeOfPopulation);
+        parent2 = new CGAIndividual(sizeOfPopulation);
         parent1 = parent1->cgaChooseParent(*population);
         parent2 = parent2->cgaChooseParent(*population);
 
+        child1 = new CGAIndividual(sizeOfPopulation);
+        child2 = new CGAIndividual(sizeOfPopulation);
         child1=child1->cgaCrossover(parent1, parent2, crossingProbability);
         child2=child2->cgaCrossover(parent2, parent1, crossingProbability);
 
@@ -61,9 +61,9 @@ void CGAOptimizer::vRunIteration() {
     }
 
     child1= nullptr;
-    child1= nullptr;
+    child2= nullptr;
     parent1= nullptr;
-    parent1= nullptr;
+    parent2= nullptr;
 
     vClearVector(population);
 
