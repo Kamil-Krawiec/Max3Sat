@@ -40,24 +40,32 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
     return this;
 }
 
-//choose parent
+//choose parent 
 CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
-    int first = randomNumber(populationSize) - 1;
-    int second = randomNumber(populationSize) - 1;
+    std::vector<CGAIndividual*> tournament;
 
-    if (first != second) {
+    for(int i=0; i<population.size();i+=2){
+
+        int first = randomNumber(population.size()) - 1;
+        int second = randomNumber(population.size()) - 1;
+
         if(population[first]->fitness > population[second]->fitness){
-            CGAIndividual* newOne = new CGAIndividual(population[first]);
-            return newOne;
+            tournament.push_back(new CGAIndividual(population[first]));
         }else{
-            CGAIndividual* newOne = new CGAIndividual(population[second]);
-            return newOne;
+            tournament.push_back(new CGAIndividual(population[second]));
         }
 
-    } else {
-        return cgaChooseParent(population);
     }
 
+    if(population.size()==1){
+        CGAIndividual* newOne = new CGAIndividual(population[0]);
+
+        tournament.shrink_to_fit();
+
+        return newOne;
+    }
+
+    return cgaChooseParent(tournament);
 }
 
 //crossover
