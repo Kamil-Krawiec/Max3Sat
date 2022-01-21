@@ -73,9 +73,14 @@ double CMax3SatProblem::iCompute(std::vector<bool>* solution) {
 }
 
 //----------------------------MY FUNCTIONS----------------------------
-//TODO
 CMax3SatProblem::~CMax3SatProblem() {
+    for (int i = 0; i != numberPointingToClausules.size(); i++) {
+        for (int j = 0; j != numberPointingToClausules[i].size(); j++) {
+            numberPointingToClausules[i].shrink_to_fit();
+        }
+    }
 
+    numberPointingToClausules.shrink_to_fit();
 
 }
 

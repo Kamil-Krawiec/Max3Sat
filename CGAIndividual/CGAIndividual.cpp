@@ -127,6 +127,11 @@ void CGAIndividual::vShowResult() {
 
 }
 
+CGAIndividual::~CGAIndividual() {
+    genotype->clear();
+    delete genotype;
+}
+
 
 
 

@@ -38,6 +38,8 @@ public:
 
     void vShowResult();
 
+    virtual ~CGAIndividual();
+
 private:
     int populationSize;
     int numberOfClauses;

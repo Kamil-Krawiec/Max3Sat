@@ -24,3 +24,7 @@ bool CClause::isVerified() const {
 void CClause::setVerified(bool verified) {
     this->verified = verified;
 }
+
+CClause::~CClause() {
+
+}

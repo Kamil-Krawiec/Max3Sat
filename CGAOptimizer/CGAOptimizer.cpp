@@ -71,7 +71,7 @@ void CGAOptimizer::vRunIteration() {
     vClearVector(population);
 
     population = newPopulation;
-//    newPopulation=new std::vector<CGAIndividual*>;
+    newPopulation=new std::vector<CGAIndividual*>;
 }
 
 //----------------------------MY FUNCTIONS----------------------------
@@ -102,6 +102,16 @@ void CGAOptimizer::vClearVector(std::vector<CGAIndividual *> *vec) {
 }
 
 CGAOptimizer::~CGAOptimizer() {
+
+    vClearVector(population);
+    delete population;
+    vClearVector(newPopulation);
+    delete newPopulation;
+    delete child1;
+    delete child2;
+    delete parent1;
+    delete parent2;
+    delete max3sat;
 
 
 }

@@ -6,6 +6,8 @@ class CClause {
 public:
     CClause(int first, int middle, int last);
 
+    virtual ~CClause();
+
     bool bCheckClausule();
 
     void vSetNumber(int number, bool newState);
