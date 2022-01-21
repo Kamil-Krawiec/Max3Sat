@@ -30,7 +30,7 @@ CGAOptimizer::CGAOptimizer() {
 void CGAOptimizer::vInitialize(std::string path) {
     max3sat = new CMax3SatProblem(sizeOfPopulation);
 
-    max3sat->bLoad(std::move(path));
+    max3sat->bLoad(std::move(path),sizeOfPopulation);
 
     for (int i = 0; i < sizeOfPopulation; i++) {
         CGAIndividual *newOne = new CGAIndividual(sizeOfPopulation);

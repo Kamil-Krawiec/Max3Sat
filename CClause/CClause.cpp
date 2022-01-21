@@ -1,20 +1,20 @@
+#include <cmath>
 #include "CClause.h"
 
-bool CClause::bCheckClausule() {
-    return boolFirst || boolMiddle || boolLast;
-}
-
-CClause::CClause(int first, int middle, int last) {
+CClause::CClause(Number *first,bool signFirst,Number *middle,bool signMiddle, Number *last,bool signLast)  {
     this->first = first;
     this->middle = middle;
     this->last = last;
-    verified=false;
+
+    this->signFirst = signFirst;
+    this->signMiddle = signMiddle;
+    this->signLast = signLast;
+
+    this->verified= false;
 }
 
-void CClause::vSetNumber(int number, bool newState) {
-    if(number==first) boolFirst = (first < 0) == !newState;
-    if(number==middle) boolMiddle = (middle < 0) == !newState;
-    if(number==last) boolLast = (last < 0) == !newState;
+bool CClause::bCheckClause() {
+    return (signFirst&&first->getState()) || (signMiddle&&middle->getState())  || (signLast&&last->getState()) ;
 }
 
 bool CClause::isVerified() const {
@@ -27,4 +27,11 @@ void CClause::setVerified(bool verified) {
 
 CClause::~CClause() {
 
+    delete first;
+    delete middle;
+    delete last;
+
 }
+
+
+

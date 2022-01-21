@@ -2,27 +2,29 @@
 #define UNTITLED_CCLAUSE_H
 
 
+#include "Number.h"
+
 class CClause {
 public:
-    CClause(int first, int middle, int last);
+    CClause(Number *first,bool signFirst,Number *middle,bool signMiddle, Number *last,bool signLast);
 
     virtual ~CClause();
 
-    bool bCheckClausule();
-
-    void vSetNumber(int number, bool newState);
+    bool bCheckClause();
 
     bool isVerified() const;
 
     void setVerified(bool verified);
 
 private:
-    int first;
-    int middle;
-    int last;
-    bool boolFirst;
-    bool boolMiddle;
-    bool boolLast;
+    Number* first;
+    Number* middle;
+    Number* last;
+
+    bool signFirst;
+    bool signMiddle;
+    bool signLast;
+
 
     bool verified;
 
