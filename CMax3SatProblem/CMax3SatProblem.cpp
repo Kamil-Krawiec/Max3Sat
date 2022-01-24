@@ -37,13 +37,13 @@ bool CMax3SatProblem::bLoad(const std::string& path,int sizeOfPopulation) {
         int middle = std::atoi(x2.c_str());
         int last = std::atoi(x3.c_str());
 
-        CClause *newClausule = new CClause(vectorNumbers->at(abs(first)),first>=0? 1:0,
+        CClause *newClause = new CClause(vectorNumbers->at(abs(first)),first>=0? 1:0,
                                            vectorNumbers->at(abs(middle)),middle>=0? 1:0,
                                            vectorNumbers->at(abs(last)),last>=0? 1:0);
 
-        numberToClauses[abs(first)].push_back(newClausule);
-        numberToClauses[abs(middle)].push_back(newClausule);
-        numberToClauses[abs(last)].push_back(newClausule);
+        numberToClauses[abs(first)].push_back(newClause);
+        numberToClauses[abs(middle)].push_back(newClause);
+        numberToClauses[abs(last)].push_back(newClause);
 
         allClauses++;
     }
