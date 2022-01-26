@@ -30,7 +30,7 @@ CGAOptimizer::CGAOptimizer() {
 void CGAOptimizer::vInitialize(std::string path) {
     max3sat = new CMax3SatProblem(sizeOfPopulation);
 
-    max3sat->bLoad(std::move(path),sizeOfPopulation);
+    max3sat->bLoad(std::move(path), sizeOfPopulation);
 
     for (int i = 0; i < sizeOfPopulation; i++) {
         CGAIndividual *newOne = new CGAIndividual(sizeOfPopulation);
@@ -51,13 +51,11 @@ void CGAOptimizer::vRunIteration() {
 
         child1 = new CGAIndividual(sizeOfPopulation);
         child2 = new CGAIndividual(sizeOfPopulation);
-        child1=child1->cgaCrossover(parent1, parent2, crossingProbability);
-        child2=child2->cgaCrossover(parent2, parent1, crossingProbability);
+        child1 = child1->cgaCrossover(parent1, parent2, crossingProbability);
+        child2 = child2->cgaCrossover(parent2, parent1, crossingProbability);
 
-        child1->cgaMutation(mutationProbability);
-        child1->dFitness(*max3sat);
-        child2->cgaMutation(mutationProbability);
-        child2->dFitness(*max3sat);
+        child1->cgaMutation(mutationProbability, *max3sat);
+        child2->cgaMutation(mutationProbability, *max3sat);
 
         newPopulation->push_back(child1);
         newPopulation->push_back(child2);
@@ -65,15 +63,15 @@ void CGAOptimizer::vRunIteration() {
         counter += 2;
     }
 
-    child1= nullptr;
-    child2= nullptr;
-    parent1= nullptr;
-    parent2= nullptr;
+    child1 = nullptr;
+    child2 = nullptr;
+    parent1 = nullptr;
+    parent2 = nullptr;
 
     vClearVector(population);
 
     population = newPopulation;
-    newPopulation=new std::vector<CGAIndividual*>;
+    newPopulation = new std::vector<CGAIndividual *>;
 }
 
 //----------------------------MY FUNCTIONS----------------------------
@@ -95,7 +93,7 @@ void CGAOptimizer::vSortPopulation() {
 
 void CGAOptimizer::vClearVector(std::vector<CGAIndividual *> *vec) {
 
-    for (auto & i : *vec) {
+    for (auto &i: *vec) {
         delete i;
     }
 

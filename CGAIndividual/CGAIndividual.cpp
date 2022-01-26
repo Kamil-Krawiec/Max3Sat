@@ -8,7 +8,7 @@ CGAIndividual::CGAIndividual() {
     genotype->reserve(DEFAULT_POPULATION_SIZE);
 }
 
-CGAIndividual::CGAIndividual(const CGAIndividual* pcOther) {
+CGAIndividual::CGAIndividual(const CGAIndividual *pcOther) {
 
     this->fitness = pcOther->fitness;
     this->populationSize = pcOther->populationSize;
@@ -30,11 +30,17 @@ CGAIndividual::CGAIndividual(int populationSize) {
 //----------------------------MUST HAVE FUNCTIONS----------------------------
 
 //mutate fun
-CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
+CGAIndividual *CGAIndividual::cgaMutation(double mutationProb, CMax3SatProblem &max3SatProblem) {
 
     for (int i = 0; i != genotype->size(); i++) {
         if (randomNumber(100) < mutationProb * 100) {
-            genotype->at(i) = !genotype->at(i);
+            double difference = max3SatProblem.iComputeForChangedGen(i);
+
+            if (difference > 0) {
+                genotype->at(i) = !genotype->at(i);
+                dNewFitness(difference);
+            }
+
         }
     }
 
@@ -43,23 +49,23 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
 
 //choose parent
 CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
-    std::vector<CGAIndividual*> tournament;
+    std::vector<CGAIndividual *> tournament;
 
-    for(int i=0; i<population.size();i+=2){
+    for (int i = 0; i < population.size(); i += 2) {
 
         int first = randomNumber(population.size()) - 1;
         int second = randomNumber(population.size()) - 1;
 
-        if(population[first]->fitness > population[second]->fitness){
+        if (population[first]->fitness > population[second]->fitness) {
             tournament.push_back(new CGAIndividual(population[first]));
-        }else{
+        } else {
             tournament.push_back(new CGAIndividual(population[second]));
         }
 
     }
 
-    if(population.size()==1){
-        CGAIndividual* newOne = new CGAIndividual(population[0]);
+    if (population.size() == 1) {
+        CGAIndividual *newOne = new CGAIndividual(population[0]);
 
         tournament.shrink_to_fit();
 
@@ -72,7 +78,7 @@ CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> popul
 //crossover
 CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2, double crossingProb) {
 
-    CGAIndividual* newOne = new CGAIndividual(parent1);
+    CGAIndividual *newOne = new CGAIndividual(parent1);
 
     if (randomNumber(100) > crossingProb * 100) return newOne;
 
@@ -89,8 +95,8 @@ CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual
     return newOne;
 }
 
-//fitness
-double CGAIndividual::dFitness(CMax3SatProblem &max3SatProblem) {
+//fitness counted for the first time
+double CGAIndividual::dFitnessFirst(CMax3SatProblem &max3SatProblem) {
     fitness = max3SatProblem.iCompute(genotype) / numberOfClauses;
     if(fitness==1) this->vShowResult();
     return fitness;
@@ -104,10 +110,11 @@ void CGAIndividual::vInitialize(CMax3SatProblem &max3SatProblem) {
     }
 
     numberOfClauses = max3SatProblem.getAllClauses();
-    dFitness(max3SatProblem);
+    dFitnessFirst(max3SatProblem);
 }
 
 //----------------------------MY FUNCTIONS----------------------------
+
 
 bool CGAIndividual::randomBool() {
     static auto gen = std::bind(std::uniform_int_distribution<>(0, 1), std::default_random_engine(100));
@@ -127,7 +134,7 @@ double CGAIndividual::getFitness() const {
 
 void CGAIndividual::vShowResult() {
     std::cout << "Best solution in fitness (completed/all) : " << fitness * 100 << "%" << std::endl;
-    std::cout <<"Completed clauses: " << round((double) fitness * numberOfClauses) << std::endl;
+    std::cout << "Completed clauses: " << round((double) fitness * numberOfClauses) << std::endl;
     std::cout << "Binary coded: ";
     for (int i = 0; i < populationSize; i++) {
         std::cout << genotype->at(i);
@@ -138,6 +145,15 @@ void CGAIndividual::vShowResult() {
 CGAIndividual::~CGAIndividual() {
     genotype->clear();
     delete genotype;
+}
+
+double CGAIndividual::dNewFitness(double difference) {
+
+    fitness = (round((double) fitness * numberOfClauses) + difference) / numberOfClauses;
+
+    if (fitness == 1) this->vShowResult();
+
+    return fitness;
 }
 
 

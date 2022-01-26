@@ -12,21 +12,15 @@ public:
 
     bool bCheckClause();
 
-    bool isVerified() const;
-
-    void setVerified(bool verified);
 
 private:
     Number* first;
     Number* middle;
     Number* last;
 
-    bool signFirst;
-    bool signMiddle;
-    bool signLast;
-
-
-    bool verified;
+    bool negationFirst;
+    bool negationMiddle;
+    bool negationLast;
 
 };
 
