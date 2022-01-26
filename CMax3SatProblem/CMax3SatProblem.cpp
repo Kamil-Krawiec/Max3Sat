@@ -49,13 +49,12 @@ bool CMax3SatProblem::bLoad(const std::string &path, int sizeOfPopulation) {
         keys.insert(abs(last));
 
 
-        for(auto key: keys){
+        for (auto key: keys) {
             numberToClauses[key].push_back(newClausule);
         }
 
         vectorOfAllClauses.push_back(newClausule);
         keys.clear();
-
     }
 
     allClauses = vectorOfAllClauses.size();
@@ -73,8 +72,8 @@ double CMax3SatProblem::iCompute(std::vector<bool> *solution) {
         vectorNumbers->at(i)->setState(solution->at(i));
     }
 
-    for(int i=0;i<allClauses;i++){
-        if(vectorOfAllClauses.at(i)->bCheckClause()) trueClauses++;
+    for (int i = 0; i < allClauses; i++) {
+        if (vectorOfAllClauses.at(i)->bCheckClause()) trueClauses++;
     }
 
 
@@ -82,22 +81,6 @@ double CMax3SatProblem::iCompute(std::vector<bool> *solution) {
 }
 
 //----------------------------MY FUNCTIONS----------------------------
-CMax3SatProblem::~CMax3SatProblem() {
-    for (int i = 0; i != numberToClauses.size(); i++) {
-        for (int j = 0; j != numberToClauses[i].size(); j++) {
-            numberToClauses[i].shrink_to_fit();
-        }
-    }
-
-    numberToClauses.shrink_to_fit();
-
-    for (int i = 0; i < vectorNumbers->size(); i++) {
-        delete vectorNumbers->at(i);
-    }
-
-    vectorNumbers->shrink_to_fit();
-    delete vectorNumbers;
-}
 
 int CMax3SatProblem::getAllClauses() const {
     return allClauses;
@@ -127,5 +110,23 @@ double CMax3SatProblem::iComputeForChangedGen(int changeAt) {
     return afterChange - beforeChange;
 }
 
+CMax3SatProblem::~CMax3SatProblem() {
 
+    for (int i = 0; i != numberToClauses.size(); i++) {
+        for (int j = 0; j != numberToClauses[i].size(); j++) {
+            numberToClauses[i].shrink_to_fit();
+        }
+    }
+
+    numberToClauses.shrink_to_fit();
+
+    for (int i = 0; i < vectorNumbers->size(); i++) {
+        delete vectorNumbers->at(i);
+    }
+
+    vectorNumbers->shrink_to_fit();
+    delete vectorNumbers;
+
+    vectorOfAllClauses.shrink_to_fit();
+}
 

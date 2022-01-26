@@ -1,7 +1,7 @@
 #include <cmath>
 #include "CClause.h"
 
-CClause::CClause(Number *first,bool signFirst,Number *middle,bool signMiddle, Number *last,bool signLast)  {
+CClause::CClause(Number *first, bool signFirst, Number *middle, bool signMiddle, Number *last, bool signLast) {
     this->first = first;
     this->middle = middle;
     this->last = last;
@@ -13,9 +13,9 @@ CClause::CClause(Number *first,bool signFirst,Number *middle,bool signMiddle, Nu
 }
 
 bool CClause::bCheckClause() {
-    return (negationFirst   ? !first->getState()    : first->getState()) ||
-            (negationMiddle ? !middle->getState()   : middle->getState()) ||
-            (negationLast   ? !last->getState()     : last->getState()) ;
+    return (negationFirst ? !first->getState() : first->getState()) ||
+           (negationMiddle ? !middle->getState() : middle->getState()) ||
+           (negationLast ? !last->getState() : last->getState());
 }
 
 CClause::~CClause() {
