@@ -92,6 +92,7 @@ CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual
 //fitness
 double CGAIndividual::dFitness(CMax3SatProblem &max3SatProblem) {
     fitness = max3SatProblem.iCompute(genotype) / numberOfClauses;
+    if(fitness==1) this->vShowResult();
     return fitness;
 }
 
