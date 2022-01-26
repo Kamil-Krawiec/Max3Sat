@@ -30,11 +30,17 @@ CGAIndividual::CGAIndividual(int populationSize) {
 //----------------------------MUST HAVE FUNCTIONS----------------------------
 
 //mutate fun
-CGAIndividual *CGAIndividual::cgaMutation(double mutationProb) {
+CGAIndividual *CGAIndividual::cgaMutation(double mutationProb, CMax3SatProblem& max3SatProblem) {
 
     for (int i = 0; i != genotype->size(); i++) {
         if (randomNumber(100) < mutationProb * 100) {
-            genotype->at(i) = !genotype->at(i);
+            double difference =max3SatProblem.iComputeForChangedGen(i);
+
+            if(difference>0){
+                genotype->at(i) = !genotype->at(i);
+                dNewFitness(difference);
+            }
+
         }
     }
 
@@ -90,7 +96,7 @@ CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual
 }
 
 //fitness
-double CGAIndividual::dFitness(CMax3SatProblem &max3SatProblem) {
+double CGAIndividual::dFitnessFirst(CMax3SatProblem &max3SatProblem) {
     fitness = max3SatProblem.iCompute(genotype) / numberOfClauses;
     return fitness;
 }
@@ -103,10 +109,11 @@ void CGAIndividual::vInitialize(CMax3SatProblem &max3SatProblem) {
     }
 
     numberOfClauses = max3SatProblem.getAllClauses();
-    dFitness(max3SatProblem);
+    dFitnessFirst(max3SatProblem);
 }
 
 //----------------------------MY FUNCTIONS----------------------------
+
 
 bool CGAIndividual::randomBool() {
     static auto gen = std::bind(std::uniform_int_distribution<>(0, 1), std::default_random_engine(100));
@@ -137,6 +144,15 @@ void CGAIndividual::vShowResult() {
 CGAIndividual::~CGAIndividual() {
     genotype->clear();
     delete genotype;
+}
+
+double CGAIndividual::dNewFitness(double difference) {
+
+    fitness=(round((double) fitness * numberOfClauses)+difference)/numberOfClauses;
+
+    if(fitness==1) this->vShowResult();
+
+    return fitness;
 }
 
 

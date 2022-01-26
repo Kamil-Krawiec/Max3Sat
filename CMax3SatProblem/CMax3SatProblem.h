@@ -8,6 +8,7 @@
 #include "../CClause/Number.h"
 #include <fstream>
 #include <iostream>
+#include <set>
 
 
 class CMax3SatProblem {
@@ -24,12 +25,19 @@ public:
     //my functions
     int getAllClauses() const;
 
+    double iComputeForChangedGen(int changeAt);
+
+    double iCountChangedClauses(int changeAt);
+
     virtual ~CMax3SatProblem();
 
 private:
     std::vector<std::vector<CClause *>> numberToClauses;
     std::vector<Number*>* vectorNumbers;
+    std::vector<CClause*> vectorOfAllClauses;
+
     int allClauses;
+
 };
 
 

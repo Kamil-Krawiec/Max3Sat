@@ -10,7 +10,7 @@ CMax3SatProblem::CMax3SatProblem(int sizeOfPopulation) {
 
 //----------------------------MUST HAVE FUNCTIONS----------------------------
 
-bool CMax3SatProblem::bLoad(const std::string& path,int sizeOfPopulation) {
+bool CMax3SatProblem::bLoad(const std::string &path, int sizeOfPopulation) {
 
     std::ifstream file;
 
@@ -22,59 +22,59 @@ bool CMax3SatProblem::bLoad(const std::string& path,int sizeOfPopulation) {
     }
 
 
-    vectorNumbers = new std::vector<Number*>;
+    vectorNumbers = new std::vector<Number *>;
 
-    for(int i=0;i<sizeOfPopulation;i++){
+    for (int i = 0; i < sizeOfPopulation; i++) {
         vectorNumbers->push_back(new Number(i));
     }
 
-    allClauses=0;
-
     std::string bracket, x1, x2, x3;
+    std::set<int> keys;
+
+
     while (file >> bracket >> x1 >> x2 >> x3 >> bracket) {
+
 
         int first = std::atoi(x1.c_str());
         int middle = std::atoi(x2.c_str());
         int last = std::atoi(x3.c_str());
 
-        CClause *newClausule = new CClause(vectorNumbers->at(abs(first)),first>=0? 1:0,
-                                           vectorNumbers->at(abs(middle)),middle>=0? 1:0,
-                                           vectorNumbers->at(abs(last)),last>=0? 1:0);
+        CClause *newClausule = new CClause(vectorNumbers->at(abs(first)), first >= 0 ? 0 : 1,
+                                           vectorNumbers->at(abs(middle)), middle >= 0 ? 0 : 1,
+                                           vectorNumbers->at(abs(last)), last >= 0 ? 0 : 1);
 
-        numberToClauses[abs(first)].push_back(newClausule);
-        numberToClauses[abs(middle)].push_back(newClausule);
-        numberToClauses[abs(last)].push_back(newClausule);
 
-        allClauses++;
+        keys.insert(abs(first));
+        keys.insert(abs(middle));
+        keys.insert(abs(last));
+
+
+        for(auto key: keys){
+            numberToClauses[key].push_back(newClausule);
+        }
+
+        vectorOfAllClauses.push_back(newClausule);
+        keys.clear();
+
     }
+
+    allClauses = vectorOfAllClauses.size();
+
     file.close();
     return true;
 }
 
-double CMax3SatProblem::iCompute(std::vector<bool>* solution) {
+double CMax3SatProblem::iCompute(std::vector<bool> *solution) {
 
     int trueClauses = 0;
 
     //setting new state to number
-    for(int i=0; i<solution->size();i++){
+    for (int i = 0; i < solution->size(); i++) {
         vectorNumbers->at(i)->setState(solution->at(i));
     }
 
-    for(int i=0; i<numberToClauses.size();i++){
-        for(int j=0; j<numberToClauses[i].size();j++){
-            CClause* subject = numberToClauses[i][j];
-            if(!subject->isVerified()){
-                if(subject->bCheckClause()) trueClauses++;
-                subject->setVerified(true);
-            }
-        }
-    }
-
-    for(int i=0; i<numberToClauses.size();i++){
-        for(int j=0; j<numberToClauses[i].size();j++){
-            CClause* subject = numberToClauses[i][j];
-            subject->setVerified(false);
-        }
+    for(int i=0;i<allClauses;i++){
+        if(vectorOfAllClauses.at(i)->bCheckClause()) trueClauses++;
     }
 
 
@@ -91,7 +91,7 @@ CMax3SatProblem::~CMax3SatProblem() {
 
     numberToClauses.shrink_to_fit();
 
-    for(int i=0;i<vectorNumbers->size();i++){
+    for (int i = 0; i < vectorNumbers->size(); i++) {
         delete vectorNumbers->at(i);
     }
 
@@ -102,4 +102,30 @@ CMax3SatProblem::~CMax3SatProblem() {
 int CMax3SatProblem::getAllClauses() const {
     return allClauses;
 }
+
+double CMax3SatProblem::iCountChangedClauses(int changeAt) {
+    double result = 0;
+    for (int i = 0; i < numberToClauses.at(changeAt).size(); i++) {
+        if (numberToClauses.at(changeAt).at(i)->bCheckClause()) result++;
+    }
+
+    return result;
+}
+
+double CMax3SatProblem::iComputeForChangedGen(int changeAt) {
+
+    Number *current = vectorNumbers->at(changeAt);
+
+    double beforeChange = iCountChangedClauses(changeAt);
+
+    current->setState(!current->getState());
+
+    double afterChange = iCountChangedClauses(changeAt);
+
+    if (beforeChange >= afterChange) current->setState(!current->getState());
+
+    return afterChange - beforeChange;
+}
+
+
 

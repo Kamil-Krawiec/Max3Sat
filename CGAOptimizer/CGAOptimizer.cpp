@@ -54,10 +54,8 @@ void CGAOptimizer::vRunIteration() {
         child1=child1->cgaCrossover(parent1, parent2, crossingProbability);
         child2=child2->cgaCrossover(parent2, parent1, crossingProbability);
 
-        child1->cgaMutation(mutationProbability);
-        child1->dFitness(*max3sat);
-        child2->cgaMutation(mutationProbability);
-        child2->dFitness(*max3sat);
+        child1->cgaMutation(mutationProbability,*max3sat);
+        child2->cgaMutation(mutationProbability,*max3sat);
 
         newPopulation->push_back(child1);
         newPopulation->push_back(child2);

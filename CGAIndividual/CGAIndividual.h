@@ -20,17 +20,19 @@ public:
     //must have functions
     void vInitialize(CMax3SatProblem& max3SatProblem);
 
-    CGAIndividual *cgaMutation(double mutationProb);
+    CGAIndividual *cgaMutation(double mutationProb,CMax3SatProblem& max3SatProblem);
 
     CGAIndividual* cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2,double crossingProb);
 
-    double dFitness(CMax3SatProblem &max3SatProblem);
+    double dFitnessFirst(CMax3SatProblem &max3SatProblem);
 
     CGAIndividual *cgaChooseParent(std::vector<CGAIndividual *> population);
 
     //my functions
 
     bool randomBool();
+
+    double dNewFitness(double difference);
 
     int randomNumber(int max);
 
