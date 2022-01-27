@@ -48,33 +48,6 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb, CMax3SatProblem &
 }
 
 //choose parent
-//CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
-//    std::vector<CGAIndividual *> tournament;
-//
-//    for (int i = 0; i < population.size()/i; i += 2) {
-//
-//        int first = randomNumber(population.size()) - 1;
-//        int second = randomNumber(population.size()) - 1;
-//
-//        if (population[first]->fitness > population[second]->fitness) {
-//            tournament.push_back(new CGAIndividual(population[first]));
-//        } else {
-//            tournament.push_back(new CGAIndividual(population[second]));
-//        }
-//
-//    }
-//
-//    if (population.size() == 1) {
-//        CGAIndividual *newOne = new CGAIndividual(population[0]);
-//
-//        tournament.shrink_to_fit();
-//
-//        return newOne;
-//    }
-//
-//    return cgaChooseParent(tournament);
-//}
-
 //tournament method with t=2;
 CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population){
 
