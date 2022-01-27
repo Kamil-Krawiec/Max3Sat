@@ -3,11 +3,8 @@
 
 int main() {
 
-<<<<<<< HEAD
     CGAOptimizer* optimizer = new CGAOptimizer(50,0.80,0.1);
-=======
     CGAOptimizer* optimizer = new CGAOptimizer(150,0.8,0.1);
->>>>>>> optimization
 
     optimizer->vInitialize("/Users/kamil/Desktop/TEP/Max3Sat/tests/m3s_150_1.txt");
 
