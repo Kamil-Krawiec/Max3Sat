@@ -22,7 +22,7 @@ public:
 
     CGAIndividual *cgaMutation(double mutationProb,CMax3SatProblem& max3SatProblem);
 
-    CGAIndividual* cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2,double crossingProb);
+    CGAIndividual* cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2,double crossingProb, CMax3SatProblem& max3SatProblem);
 
     double dFitnessFirst(CMax3SatProblem &max3SatProblem);
 

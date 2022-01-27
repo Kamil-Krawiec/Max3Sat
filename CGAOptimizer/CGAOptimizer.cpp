@@ -51,8 +51,8 @@ void CGAOptimizer::vRunIteration() {
 
         child1 = new CGAIndividual(sizeOfPopulation);
         child2 = new CGAIndividual(sizeOfPopulation);
-        child1 = child1->cgaCrossover(parent1, parent2, crossingProbability);
-        child2 = child2->cgaCrossover(parent2, parent1, crossingProbability);
+        child1 = child1->cgaCrossover(parent1, parent2, crossingProbability,*max3sat);
+        child2 = child2->cgaCrossover(parent2, parent1, crossingProbability,*max3sat);
 
         child1->cgaMutation(mutationProbability, *max3sat);
         child2->cgaMutation(mutationProbability, *max3sat);

@@ -48,35 +48,50 @@ CGAIndividual *CGAIndividual::cgaMutation(double mutationProb, CMax3SatProblem &
 }
 
 //choose parent
-CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
-    std::vector<CGAIndividual *> tournament;
+//CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population) {
+//    std::vector<CGAIndividual *> tournament;
+//
+//    for (int i = 0; i < population.size()/i; i += 2) {
+//
+//        int first = randomNumber(population.size()) - 1;
+//        int second = randomNumber(population.size()) - 1;
+//
+//        if (population[first]->fitness > population[second]->fitness) {
+//            tournament.push_back(new CGAIndividual(population[first]));
+//        } else {
+//            tournament.push_back(new CGAIndividual(population[second]));
+//        }
+//
+//    }
+//
+//    if (population.size() == 1) {
+//        CGAIndividual *newOne = new CGAIndividual(population[0]);
+//
+//        tournament.shrink_to_fit();
+//
+//        return newOne;
+//    }
+//
+//    return cgaChooseParent(tournament);
+//}
 
-    for (int i = 0; i < population.size(); i += 2) {
+//tournament method with t=2;
+CGAIndividual *CGAIndividual::cgaChooseParent(std::vector<CGAIndividual *> population){
 
-        int first = randomNumber(population.size()) - 1;
-        int second = randomNumber(population.size()) - 1;
+    int first = randomNumber(population.size()) - 1;
+    int second = randomNumber(population.size()) - 1;
+    CGAIndividual *newOne;
 
-        if (population[first]->fitness > population[second]->fitness) {
-            tournament.push_back(new CGAIndividual(population[first]));
-        } else {
-            tournament.push_back(new CGAIndividual(population[second]));
-        }
-
+    if(population.at(first)->getFitness()>population.at(second)->getFitness()){
+        newOne = new CGAIndividual(population[first]);
+    }else{
+        newOne = new CGAIndividual(population[second]);
     }
 
-    if (population.size() == 1) {
-        CGAIndividual *newOne = new CGAIndividual(population[0]);
-
-        tournament.shrink_to_fit();
-
-        return newOne;
-    }
-
-    return cgaChooseParent(tournament);
+    return newOne;
 }
-
 //crossover
-CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2, double crossingProb) {
+CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual *parent2, double crossingProb,CMax3SatProblem &max3sat) {
 
     CGAIndividual *newOne = new CGAIndividual(parent1);
 
@@ -91,6 +106,8 @@ CGAIndividual *CGAIndividual::cgaCrossover(CGAIndividual *parent1, CGAIndividual
             newOne->genotype->at(i) = parent2->genotype->at(i);
         }
     }
+
+    newOne->dFitnessFirst(max3sat);
 
     return newOne;
 }
@@ -138,7 +155,7 @@ void CGAIndividual::vShowResult() {
     for (int i = 0; i < populationSize; i++) {
         std::cout << genotype->at(i);
     }
-
+    return;
 }
 
 CGAIndividual::~CGAIndividual() {
